@@ -14,7 +14,7 @@ const showmypostRoute = require('./Routes/showmypostRoute')
 const showsavepostRoute = require('./Routes/showsavepost')
 
 const corsOptions = {
-    origin: 'http://https://communicateus.netlify.app/',
+    origin: 'http://communicateus.netlify.app/',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
