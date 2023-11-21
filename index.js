@@ -13,7 +13,14 @@ const showpostRoute = require('./Routes/showpostRoute')
 const showmypostRoute = require('./Routes/showmypostRoute')
 const showsavepostRoute = require('./Routes/showsavepost')
 
-app.use(cors())
+const corsOptions = {
+    origin: 'http://https://communicateus.netlify.app/',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.use('/uploads', express.static('uploads'));
 
 
