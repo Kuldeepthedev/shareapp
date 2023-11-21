@@ -12,7 +12,7 @@ showsavepostRoute.post('/showsaveposts', async (req, resp) => {
         const userSavedPosts = posts.filter(post => post.Saveby.includes(username));
         if(userSavedPosts.length > 0){
         
-        resp.status(200).json(userSavedPosts);
+            return resp.status(200).json(userSavedPosts);
     }
     } catch (error) {
         resp.status(400).json('Error in finding posts');

@@ -23,7 +23,7 @@ likesRoute.post('/updatelike', async(req,resp)=>{
                 Like:like
             })
         }
-        resp.status(200).json(post)
+        return  resp.status(200).json(post)
         
 
         

@@ -56,13 +56,13 @@ postRoute.post('/userpost', upload.single('post'), async (req, resp) => {
               
             );
             if (savepost) {
-                     resp.status(200).json("post Saved");
+                return  resp.status(200).json("post Saved");
                 }
             
         }
     
            catch (error) {
-        resp.status(400).json("Bad request");
+            return  resp.status(400).json("Bad request");
     }
 })
 postRoute.post('/postlike', async (req, resp) => {
@@ -84,10 +84,10 @@ postRoute.post('/postlike', async (req, resp) => {
         }
 
         const updatedPost = await Post.findOne({ _id: Postid });
-        resp.status(200).json(updatedPost);
+        return  resp.status(200).json(updatedPost);
     } catch (error) {
         console.error(error);
-        resp.status(500).json({ error: 'Internal Server Error' });
+        return  resp.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
@@ -110,10 +110,10 @@ postRoute.post('/postsave', async (req, resp) => {
         }
 
         const updatedPost = await Post.findOne({ _id: Postid });
-        resp.status(200).json(updatedPost);
+        return  resp.status(200).json(updatedPost);
     } catch (error) {
         console.error(error);
-        resp.status(500).json({ error: 'Internal Server Error' });
+        return   resp.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
@@ -133,13 +133,13 @@ postRoute.post('/comment', async (req, resp) => {
                     }
                 }
             });
-            resp.status(200).json({ message: 'Comment added successfully' });
+            return   resp.status(200).json({ message: 'Comment added successfully' });
         } else {
-            resp.status(404).json({ message: 'Post not found' });
+            return  resp.status(404).json({ message: 'Post not found' });
         }
     } catch (error) {
         console.error('Error adding comment:', error);
-        resp.status(500).json({ message: 'Internal server error' });
+        return resp.status(500).json({ message: 'Internal server error' });
     }
 });
 

@@ -36,7 +36,7 @@ userRoute.post('/sendotp', async (req, resp) => {
     try {
         const user = await User.findOne({ email: email });
         if (user) {
-            resp.status(409).json("User Already Exists");
+            return   resp.status(409).json("User Already Exists");
         } else {
             const transporter = await nodemailer.createTransport({
                 host: "smtp.gmail.com",
@@ -63,10 +63,10 @@ userRoute.post('/sendotp', async (req, resp) => {
                 username: '',
                 password: ''
             });
-            resp.status(200).json(Saveuser.email);
+            return   resp.status(200).json(Saveuser.email);
         }
     } catch (error) {
-        resp.status(400).json('Error');
+        return resp.status(400).json('Error');
     }
 });
 
@@ -75,7 +75,7 @@ userRoute.post('/signup', async(req,resp)=>{
     try{
         const user = await User.findOne({username:username})
         if(user){
-            resp.status(409).json("Username Already taken try with diffrent")
+           return resp.status(409).json("Username Already taken try with diffrent")
         }
         else{
         const verifyotp = await User.findOne({OTP:otp})
@@ -86,10 +86,10 @@ userRoute.post('/signup', async(req,resp)=>{
                 password:hashpassword,
                 OTP:''
             }})
-            resp.status(200).json(result)
+            return  resp.status(200).json(result)
         }
         else{
-            resp.status(403).json("Invalid OTP")
+            return  resp.status(403).json("Invalid OTP")
         }
         }
 
@@ -105,20 +105,20 @@ userRoute.post('/login', async(req,resp)=>{
     try{
        const exituser =await User.findOne({username:username})
       if(!exituser){
-        resp.status(402).json("User not ragistered Yet")
+        return  resp.status(402).json("User not ragistered Yet")
       }
       else {
       const matchpass = await bcrypt.compare(password,exituser.password)
       if(!matchpass){
-        resp.status(403).json('Invalid Careditals')
+        return   resp.status(403).json('Invalid Careditals')
       }
       else{
-      resp.status(200).json(exituser)
+        return  resp.status(200).json(exituser)
       }
     }
 }
     catch(error){
-        resp.status(401).json("Failed to Login")
+        return  resp.status(401).json("Failed to Login")
     }
 })
 
@@ -127,7 +127,7 @@ userRoute.post('/forpass', async (req, resp)=>{
     try{
         const emailforforpass = User.findOne({email:email})
         if(!emailforforpass){
-            resp.status(401).json("User not ragistered")
+            return   resp.status(401).json("User not ragistered")
         }
     const transporter = await nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -149,11 +149,11 @@ userRoute.post('/forpass', async (req, resp)=>{
     });
        const saveotp = await User.updateOne({email:email},{$set:{OTP:_otp}})
       if(saveotp){
-        resp.status(200).json(email)
+        return  resp.status(200).json(email)
       }
 }
 catch(error){
-       resp.status(400).json('error while sending otp')
+    return  resp.status(400).json('error while sending otp')
 }
 })
 userRoute.post('/resetpass' ,async (req,resp)=>{
@@ -161,7 +161,7 @@ userRoute.post('/resetpass' ,async (req,resp)=>{
     try{
         const repassotp =await User.findOne({OTP:OTP})
         if(repassotp){
-            resp.status.apply(403).json("Invalid Otp")
+            return   resp.status.apply(403).json("Invalid Otp")
 
         }
         else{
@@ -170,13 +170,13 @@ userRoute.post('/resetpass' ,async (req,resp)=>{
             if(updatepass){
                 const updateotp = await User.updateOne({OTP:OTP},{$set:{OTP:''}})
                 
-                resp.status(200).json("password updated")
+                return  resp.status(200).json("password updated")
             }
         }
 
     }
     catch(error){
-        resp.status(400).json("bad request")
+        return  resp.status(400).json("bad request")
     }
 })
 
@@ -190,7 +190,7 @@ userRoute.post('/updateuser', upload.single('profile'), async (req, resp) => {
     try {
         const confirmuser = await User.findOne({ username: username });
         if (!confirmuser) {
-            resp.status(403).json("User Not found");
+            return  resp.status(403).json("User Not found");
         } else {
             const updateuser = await User.updateOne(
                 { username: username },
@@ -209,14 +209,14 @@ userRoute.post('/updateuser', upload.single('profile'), async (req, resp) => {
                 let senddata = await User.findOne({username:username}).select("-password")
                 if(senddata){
                    
-                resp.status(200).json(senddata);
+                    return  resp.status(200).json(senddata);
                 }
             } else {
-                resp.status(400).json("Failed to update user data");
+                return  resp.status(400).json("Failed to update user data");
             }
         }
     } catch (error) {
-        resp.status(400).json("Bad request");
+        return  resp.status(400).json("Bad request");
     }
 });
 

@@ -11,10 +11,10 @@ showmypostRoute.post('/showmyposts', async (req, resp) => {
         let findpost = await Post.find({username:username})
         if(findpost){
         const posts = await Post.find({username:username});
-        resp.status(200).json(posts);
+      return  resp.status(200).json(posts);
     }
     } catch (error) {
-        resp.status(400).json('Error in finding posts');
+        return  resp.status(400).json('Error in finding posts');
     }
 });
 
