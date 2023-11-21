@@ -63,7 +63,8 @@ userRoute.post('/sendotp', async (req, resp) => {
                 username: '',
                 password: ''
             });
-            return   resp.status(200).json(Saveuser.email);
+            const senduserres = await User.findOne({email:email})
+            return   resp.status(200).json(senduserres.email);
         }
     } catch (error) {
         return resp.status(400).json('Error');
