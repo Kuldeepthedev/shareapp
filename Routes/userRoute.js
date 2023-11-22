@@ -36,7 +36,7 @@ userRoute.post('/sendotp', async (req, resp) => {
     try {
         const user = await User.findOne({ email: email });
         if (user) {
-            return   resp.status(409).json("User Already Exists");
+            return resp.status(409).json("User Already Exists");
         } else {
             const transporter = await nodemailer.createTransport({
                 host: "smtp.gmail.com",
@@ -63,13 +63,16 @@ userRoute.post('/sendotp', async (req, resp) => {
                 username: '',
                 password: ''
             });
-            const senduserres = await User.findOne({email:email})
-            return   resp.status(200).json(senduserres.email);
+
+            // Send the response after asynchronous operations are completed
+            resp.status(200).json(Saveuser.email);
         }
     } catch (error) {
-        return resp.status(400).json('Error');
+        console.error(error); // Log the error for debugging purposes
+        return resp.status(400).json({ error: 'Error' });
     }
 });
+
 
 userRoute.post('/signup', async(req,resp)=>{
     const {username, otp, password,email} = req.body;
